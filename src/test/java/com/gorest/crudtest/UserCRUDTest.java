@@ -2,59 +2,76 @@ package com.gorest.crudtest;
 
 import com.gorest.model.UserPojo;
 import com.gorest.testbase.TestBase;
+import com.gorest.utils.TestUtils;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
 public class UserCRUDTest extends TestBase {
+    static int userId;
+    static String name = TestUtils.getRandomValue() + "PrimeUser";
+    static String email = TestUtils.getRandomValue() + "xyz@gmail.com";
+    static String gender = "male";
+    static String status = "active";
+
     @Test
-    public void verifyUserCreatedSuccessfully(){
+    public void T1verifyUserCreatedSuccessfully() {
         UserPojo userPojo = new UserPojo();
-        userPojo.setName("Malav Devani");
-        userPojo.setEmail("devtest@gmail.com");
-        userPojo.setGender("Male");
-        userPojo.setStatus("Active");
-        Response response =
-                given()
-                        .header("Content-Type","application/json")
-                        .header("Authorization","Bearer 600f4364266ef9256401822c412cbfa2a4fe3c13c5c708bf2206cbb120f2a4c9")
-                        .body(userPojo)
-                        .when()
-                        .post("/users");
-        response.then().statusCode(201);
-        response.prettyPrint();
-    }
+        userPojo.setName(name);
+        userPojo.setEmail(email);
+        userPojo.setGender(gender);
+        userPojo.setStatus(status);
 
-    @Test
-    public void userUpdateSuccessfully(){
-        UserPojo userPojo = new UserPojo();
-        userPojo.setName("Malav Devani");
-        userPojo.setEmail("dev123test@gmail.com");
-        userPojo.setGender("Male");
-        userPojo.setStatus("Active");
-        Response response =
-                given()
-                        .header("Content-Type","application/json")
-                        .header("Authorization","Bearer 600f4364266ef9256401822c412cbfa2a4fe3c13c5c708bf2206cbb120f2a4c9")
-                        .body(userPojo)
-                        .when()
-                        .patch("/users/7015080");
-        response.then().statusCode(200);
-        response.prettyPrint();
-    }
-
-
-    @Test
-    public void deleteUser() {
         Response response = given()
-
-                .header("Content-Type","application/json")
                 .header("Authorization", "Bearer 600f4364266ef9256401822c412cbfa2a4fe3c13c5c708bf2206cbb120f2a4c9")
-
+                .header("Content-Type", "application/json")
                 .when()
-                .delete("/users/7015080");
-        response.then().statusCode(204);
+                .body(userPojo)
+                .post("/users");
         response.prettyPrint();
+        response.then().statusCode(201);
+
+        userId = response.then().extract().path("id");
+        System.out.println("User ID is: " + userId);
+    }
+
+    @Test
+    public void T2verifyUserReadSuccessfully() {
+        Response response = given()
+                .header("Authorization", "Bearer 600f4364266ef9256401822c412cbfa2a4fe3c13c5c708bf2206cbb120f2a4c9")
+                .header("Content-Type", "application/json")
+                .when()
+                .get("/users/" + userId);
+        response.prettyPrint();
+        response.then().statusCode(200);
+    }
+
+    @Test
+    public void T3verifyUserUpdateSuccessfully() {
+        UserPojo userPojo = new UserPojo();
+        userPojo.setName(name);
+        userPojo.setEmail(email);
+        userPojo.setGender(gender);
+        userPojo.setStatus(status);
+        Response response = given()
+                .header("Authorization", "Bearer 600f4364266ef9256401822c412cbfa2a4fe3c13c5c708bf2206cbb120f2a4c9")
+                .header("Content-Type", "application/json")
+                .when()
+                .body(userPojo)
+                .put("/users/"+userId);
+        response.prettyPrint();
+        response.then().statusCode(200);
+    }
+
+    @Test
+    public void T4VerifyUserDeleteSuccessfully() {
+        Response response = given()
+                .header("Authorization", "Bearer 600f4364266ef9256401822c412cbfa2a4fe3c13c5c708bf2206cbb120f2a4c9")
+                .header("Connection", "keep-alive")
+                .when()
+                .delete("/users/"+userId);
+        response.prettyPrint();
+        response.then().statusCode(204);
     }
 }
