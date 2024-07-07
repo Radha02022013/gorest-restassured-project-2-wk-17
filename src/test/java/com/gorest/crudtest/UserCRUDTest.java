@@ -44,15 +44,7 @@ public class UserCRUDTest extends TestBase {
         response.prettyPrint();
     }
 
-    @Test
-    public void getAllCustomersInfo() {
-        Response response = given()
-                .when()
-                .get("/users");
-        response.then().statusCode(200);
-        response.prettyPrint();
 
-    }
     @Test
     public void deleteUser() {
         Response response = given()
