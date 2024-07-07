@@ -29,7 +29,7 @@ public class PostsAssertionTest extends TestBase {
     //1. Verify  if the total record is 25
     @Test
     public void test1() {
-        response.assertThat().body("size()",equalTo(25));
+        response.body("size()", equalTo(25));
     }
 
     //2. Verify the if the title of id =  139915 is equal to ”Defaeco in carbo decet audeo volutabrum corroboro.

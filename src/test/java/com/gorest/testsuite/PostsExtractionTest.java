@@ -38,7 +38,7 @@ public class PostsExtractionTest extends TestBase {
     //2. Extract the total number of record
     @Test
     public void test002() {
-        List<Object> totalRecord = response.extract().path("record");
+        List<Object> totalRecord = response.extract().path("total");
         System.out.println("------------------StartingTest---------------------------");
         System.out.println("Total records are : " + totalRecord.size());
         System.out.println("------------------End of Test---------------------------");

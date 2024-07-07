@@ -57,7 +57,7 @@ public class UserExtractionTest extends TestBase {
     //4. Extract the names of all object whose status = inactive
     @Test
     public void test04() {
-        List<?> allInActiveStatus = response.extract().path("findAll{it.status == 'inactive'}.id");
+        List<?> allInActiveStatus = response.extract().path("findAll{it.status == 'inactive'}.name");
         System.out.println("------------------StartingTest---------------------------");
         System.out.println("Status of Inactive: " + allInActiveStatus);
         System.out.println("------------------End of Test---------------------------");
@@ -77,7 +77,7 @@ public class UserExtractionTest extends TestBase {
     //6. Print the names of the object whose gender = female
     @Test
     public void test06() {
-        List<?> allObjectWithGenderFemale = response.extract().path("findAll{it.gender == 'female'}.id");
+        List<?> allObjectWithGenderFemale = response.extract().path("findAll{it.gender == 'female'}.name");
         System.out.println("------------------StartingTest---------------------------");
         System.out.println("Gender is Female: " + allObjectWithGenderFemale);
         System.out.println("------------------End of Test---------------------------");

@@ -28,7 +28,7 @@ public class UserAssertionTest extends TestBase {
     //1. Verify if the total record is 20
     @Test
     public void test1() {
-        response.assertThat().body("size()",equalTo(20));
+        response.body("size()", equalTo(20));
     }
 
     //2. Verify  if the name of id = 7015089 is equal to ”Dev Tagore”
